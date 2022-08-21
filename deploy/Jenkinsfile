@@ -13,13 +13,17 @@ pipeline {
 
   stages {
     stage('============ Build Docker Image ============') {
-        when { expression { return params.BUILD_DOCKER_IMAGE } }
+        when {
+          expression { return params.BUILD_DOCKER_IMAGE }
+        }
         steps {
-            echo "Stage Build!"
+          dir("${env.WORKSPACE}") { // /java_home/workspaces/10/...
+            sh 'docker build -t test:1 .'
+          }
         }
         post {
             always {
-                echo "post stage"
+                echo "Docker build success!"
             }
         }
     }
